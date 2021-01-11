@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
-import Product from "../models/Product";
+import { IProduct } from "../models/Product";
 import { NextPage } from "next";
 
 type Props = {
-  products: Product[];
+  products: IProduct[];
 };
 
 const Home: NextPage<Props> = ({ products }: Props) => {
@@ -25,7 +25,7 @@ const Home: NextPage<Props> = ({ products }: Props) => {
 
 Home.getInitialProps = async () => {
   const url = "http://localhost:3000/api/products";
-  const response = await axios.get<Product[]>(url);
+  const response = await axios.get<IProduct[]>(url);
   return { products: response.data };
 };
 
