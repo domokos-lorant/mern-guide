@@ -28,6 +28,7 @@ const ProductSchema = new Schema({
 });
 
 export interface IProduct {
+  _id: any;
   name: string,
   price: number,
   description: string,
@@ -35,7 +36,7 @@ export interface IProduct {
   mediaUrl: string
 };
 
-interface IProductDocument extends IProduct, Document {
+export interface IProductDocument extends IProduct, Document {
 
 }
 
