@@ -3,6 +3,7 @@ import axios from "axios";
 import { IProduct } from "../models/Product";
 import { NextPage } from "next";
 import ProductList from "../components/Index/ProductList";
+import baseUrl from "../utils/baseUrl";
 
 type Props = {
   products: IProduct[];
@@ -13,7 +14,7 @@ const Home: NextPage<Props> = ({ products }: Props) => {
 };
 
 Home.getInitialProps = async () => {
-  const url = "http://localhost:3000/api/products";
+  const url = `${baseUrl}/api/products`;
   const response = await axios.get<IProduct[]>(url);
   return { products: response.data };
 };
