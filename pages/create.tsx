@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useCallback, useState } from "react";
 import {
   Button,
@@ -9,6 +10,7 @@ import {
   Message,
   TextArea,
 } from "semantic-ui-react";
+import baseUrl from "../utils/baseUrl";
 
 type State = {
   name: string;
@@ -28,6 +30,7 @@ function CreateProduct(): JSX.Element {
   const [product, setProduct] = useState(defaultState);
   const [mediaPreview, setMediaPreview] = useState("");
   const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value, files } = event.target;
@@ -44,14 +47,35 @@ function CreateProduct(): JSX.Element {
   );
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent) => {
+    async (event: React.FormEvent) => {
       event.preventDefault();
-      console.log(product);
+      setLoading(true);
+      const mediaUrl = await handleImageUpload();
+      const url = `${baseUrl}/api/product`;
+      const { name, price, description } = product;
+      const payload = { name, price, description, mediaUrl };
+      const response = await axios.post(url, payload);
+      setLoading(false);
+      console.log({ response });
       setProduct(defaultState);
       setSuccess(true);
     },
     [product]
   );
+
+  async function handleImageUpload(): Promise<string> {
+    if (product.media) {
+      const data = new FormData();
+      data.append("file", product.media);
+      data.append("upload_preset", "reactreserve");
+      data.append("cloud_name", "lorantd");
+      const response = await axios.post(process.env.CLOUDINARY_URL, data);
+      const mediaUrl = response.data.url;
+      return mediaUrl;
+    }
+
+    return "";
+  }
 
   return (
     <>
@@ -59,7 +83,7 @@ function CreateProduct(): JSX.Element {
         <Icon name="add" color="orange" />
         Create New Product
       </Header>
-      <Form success={success} onSubmit={handleSubmit}>
+      <Form loading={loading} success={success} onSubmit={handleSubmit}>
         <Message
           success
           icon="check"
@@ -107,6 +131,7 @@ function CreateProduct(): JSX.Element {
         />
         <Form.Field
           control={Button}
+          disabled={loading}
           color="blue"
           icon="pencil alternate"
           content="Submit"
