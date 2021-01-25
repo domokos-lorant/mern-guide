@@ -18,7 +18,7 @@ Router.events.on("routeChangeError", () => NProgress.done());
 
 function Header(): JSX.Element {
   const router = useRouter();
-  const user = true;
+  const user = false;
 
   function isActive(route: string): boolean {
     return route === router.pathname;
@@ -69,22 +69,22 @@ function Header(): JSX.Element {
             </Menu.Item>
           </>
         ) : (
-          <>
-            <Link href={Routes.Login}>
-              <Menu.Item header active={isActive(Routes.Login)}>
-                <Icon size="large" name="sign in" />
+            <>
+              <Link href={Routes.Login}>
+                <Menu.Item header active={isActive(Routes.Login)}>
+                  <Icon size="large" name="sign in" />
                 Login
               </Menu.Item>
-            </Link>
+              </Link>
 
-            <Link href={Routes.Signup}>
-              <Menu.Item header active={isActive(Routes.Signup)}>
-                <Icon size="large" name="signup" />
+              <Link href={Routes.Signup}>
+                <Menu.Item header active={isActive(Routes.Signup)}>
+                  <Icon size="large" name="signup" />
                 Signup
               </Menu.Item>
-            </Link>
-          </>
-        )}
+              </Link>
+            </>
+          )}
       </Container>
     </Menu>
   );

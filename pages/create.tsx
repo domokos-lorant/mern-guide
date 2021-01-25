@@ -58,6 +58,7 @@ function CreateProduct(): JSX.Element {
     async (event: React.FormEvent) => {
       event.preventDefault();
       setLoading(true);
+      setError("");
 
       try {
         const mediaUrl = await handleImageUpload();

@@ -46,6 +46,6 @@ async function handlePostRequest(req: NextApiRequest, res: NextApiResponse): Pro
     res.status(201).json(product);
   } catch (error) {
     console.error(error);
-    res.status(500).send("Server error in creating product";)
+    res.status(500).send("Server error in creating product");
   }
 }
