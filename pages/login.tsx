@@ -41,7 +41,7 @@ function Login(): JSX.Element {
         setError("");
         const url = `${baseUrl}/api/login`;
         const payload = { ...user };
-        const response = await axios.post(url, user);
+        const response = await axios.post(url, payload);
         handleLogin(response.data);
       } catch (error) {
         catchErrors(error, setError);
