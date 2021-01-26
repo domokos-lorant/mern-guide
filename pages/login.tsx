@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Form, Icon, Message, Segment } from "semantic-ui-react";
+import baseUrl from "../utils/baseUrl";
 import catchErrors from "../utils/catchErrors";
+import axios from "axios";
+import { handleLogin } from "../utils/auth";
 
 type State = {
   email: string,
@@ -36,7 +39,10 @@ function Login(): JSX.Element {
       try {
         setLoading(true);
         setError("");
-        console.log(user);
+        const url = `${baseUrl}/api/login`;
+        const payload = { ...user };
+        const response = await axios.post(url, user);
+        handleLogin(response.data);
       } catch (error) {
         catchErrors(error, setError);
       } finally {
