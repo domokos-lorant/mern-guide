@@ -1,6 +1,9 @@
+import axios from "axios";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 import { Button, Form, Icon, Message, Segment } from "semantic-ui-react";
+import { handleLogin } from "../utils/auth";
+import baseUrl from "../utils/baseUrl";
 import catchErrors from "../utils/catchErrors";
 
 type State = {
@@ -38,7 +41,10 @@ function Signup(): JSX.Element {
       try {
         setLoading(true);
         setError("");
-        console.log(user);
+        const url = `${baseUrl}/api/signup`;
+        const payload = { ...user };
+        const response = await axios.post(url, payload);
+        handleLogin(response.data);
       } catch (error) {
         catchErrors(error, setError);
       } finally {

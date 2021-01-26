@@ -36,10 +36,9 @@ export interface IProduct {
   mediaUrl: string
 };
 
-export interface IProductDocument extends IProduct, Document {
-
-}
+export interface IProductDocument extends IProduct, Document { }
 
 
-const Product: Model<IProductDocument> = mongoose.models.Product || model<IProductDocument>("Product", ProductSchema);
+const Product: Model<IProductDocument> = mongoose.models.Product
+  || model<IProductDocument>("Product", ProductSchema);
 export default Product;
