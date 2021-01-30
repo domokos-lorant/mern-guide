@@ -3,8 +3,14 @@ import { Container } from "semantic-ui-react";
 
 import Header from "./Header";
 import HeadContent from "./HeadContent";
+import { IUser } from "../../models/User";
 
-function Layout({ children }: { children: JSX.Element }): JSX.Element {
+type Props = {
+  children: JSX.Element,
+  user?: IUser
+};
+
+function Layout({ children, user }: Props): JSX.Element {
   return (
     <>
       <Head>
@@ -18,7 +24,7 @@ function Layout({ children }: { children: JSX.Element }): JSX.Element {
         />
         <title>ReactReserve</title>
       </Head>
-      <Header />
+      <Header user={user} />
       <Container text style={{ paddingTop: "1em" }}>
         {children}
       </Container>

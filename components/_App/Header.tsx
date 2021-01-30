@@ -2,23 +2,23 @@ import { Menu, Container, Image, Icon } from "semantic-ui-react";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 import NProgress from "nprogress";
-
-enum Routes {
-  Home = "/",
-  Cart = "/cart",
-  Create = "/create",
-  Account = "/account",
-  Login = "/login",
-  Signup = "/signup",
-}
+import { IUser } from "../../models/User";
+import { Routes } from "../../utils/routes";
+import { handleLogout } from "../../utils/auth";
 
 Router.events.on("routeChangeStart", () => NProgress.start());
 Router.events.on("routeChangeComplete", () => NProgress.done());
 Router.events.on("routeChangeError", () => NProgress.done());
 
-function Header(): JSX.Element {
+type Props = {
+  user?: IUser
+};
+
+function Header({ user }: Props): JSX.Element {
   const router = useRouter();
-  const user = false;
+  const isRoot = user && user.role === "root";
+  const isAdmin = user && user.role === "admin";
+  const isRootOrAdmin = isRoot || isAdmin;
 
   function isActive(route: string): boolean {
     return route === router.pathname;
@@ -45,7 +45,7 @@ function Header(): JSX.Element {
           </Menu.Item>
         </Link>
 
-        {user && (
+        {isRootOrAdmin && (
           <Link href={Routes.Create}>
             <Menu.Item header active={isActive(Routes.Create)}>
               <Icon size="large" name="add square" />
@@ -63,7 +63,7 @@ function Header(): JSX.Element {
               </Menu.Item>
             </Link>
 
-            <Menu.Item header>
+            <Menu.Item header onClick={handleLogout}>
               <Icon size="large" name="sign out" />
               Logout
             </Menu.Item>

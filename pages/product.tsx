@@ -3,17 +3,19 @@ import { NextPageContext } from "next";
 import ProductAttributes from "../components/Product/ProductAttributes";
 import ProductSummary from "../components/Product/ProductSummary";
 import { IProduct } from "../models/Product";
+import { IUser } from "../models/User";
 import baseUrl from "../utils/baseUrl";
 
 type Props = {
   product: IProduct;
+  user?: IUser;
 };
 
-function Product({ product }: Props): JSX.Element {
+function Product({ product, user }: Props): JSX.Element {
   return (
     <>
       <ProductSummary {...product} />
-      <ProductAttributes {...product} />
+      <ProductAttributes {...product} user={user} />
     </>
   );
 }
