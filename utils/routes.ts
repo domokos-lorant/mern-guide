@@ -4,5 +4,9 @@ export enum Routes {
     Create = "/create",
     Account = "/account",
     Login = "/login",
-    Signup = "/signup",
+    Signup = "/signup"
+}
+
+export enum ApiRoutes {
+    Cart = "api/cart"
 }

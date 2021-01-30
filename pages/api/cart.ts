@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import connectDb from "../../utils/connectDb";
-import User from "../../models/User";
+import Cart from "../../models/Cart";
 import { verifyToken } from "../../utils/auth";
+import connectDb from "../../utils/connectDb";
 
-connectDb("account");
+connectDb("cart");
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     if (!req.headers.authorization) {
@@ -12,15 +12,12 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
 
     try {
         const userId = verifyToken(req.headers.authorization);
-        const user = await User.findOne({ _id: userId });
-
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            res.status(404).send("User not found");
-        }
+        const cart = await Cart
+            .findOne({ user: userId })
+            .populate({ path: "products.product", model: "Product" });
+        res.status(200).json(cart?.products);
     } catch (error) {
         console.error(error);
-        res.status(403).send("Invalid token");
+        res.status(403).send("Please login again");
     }
 }

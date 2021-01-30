@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import connectDb from "../../utils/connectDb";
 import Product from "../../models/Product";
 
-connectDb();
+connectDb("products");
 
 export default async (_req: NextApiRequest, res: NextApiResponse): Promise<void> => {
   const products = await Product.find();

@@ -4,7 +4,7 @@ import connectDb from "../../utils/connectDb";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
-connectDb();
+connectDb("login");
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const { email, password } = req.body;

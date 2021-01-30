@@ -7,7 +7,7 @@ import isEmail from "validator/lib/isEmail";
 import isLength from "validator/lib/isLength";
 import Cart from "../../models/Cart";
 
-connectDb();
+connectDb("signup");
 
 export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const { name, email, password } = req.body;
@@ -42,7 +42,6 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
             email,
             password: hash
         }).save();
-        console.log({ newUser });
 
         // Create cart for new user.
         await new Cart({ user: newUser._id }).save();

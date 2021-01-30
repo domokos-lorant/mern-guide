@@ -2,6 +2,10 @@ import mongoose, { model, Model, Schema, Document } from "mongoose";
 import { IProduct } from "./Product";
 import { IUser } from "./User";
 
+// Ensure related models are registerd, so that populate will work.
+require("./User");
+require("./Product");
+
 const { ObjectId, Number } = Schema.Types;
 
 const CartSchema = new Schema({
