@@ -14,7 +14,7 @@ type Props = {
 function Product({ product, user }: Props): JSX.Element {
   return (
     <>
-      <ProductSummary {...product} />
+      <ProductSummary {...product} user={user} />
       <ProductAttributes {...product} user={user} />
     </>
   );
