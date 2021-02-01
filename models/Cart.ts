@@ -25,22 +25,27 @@ const CartSchema = new Schema({
     }]
 });
 
+export type ICartItem = {
+    quantity: number,
+    product: IProduct
+}
+
 export interface ICart {
     _id: any,
     user: Schema.Types.ObjectId | IUser,
-    products: Schema.Types.ObjectId[] | IProduct[];
+    products: { product: { _id: Schema.Types.ObjectId } }[] | ICartItem[];
 }
 
 export interface ICartBaseDocument extends ICart, Document { }
 
 export interface ICartDocument extends ICartBaseDocument {
     user: IUser["_id"],
-    products: IProduct["_id"][]
+    products: { product: { _id: Schema.Types.ObjectId } }[]
 }
 
 export interface ICartPopulatedDocument extends ICartBaseDocument {
     user: IUser
-    products: IProduct[]
+    products: ICartItem[]
 }
 
 const Cart: Model<ICartDocument> = mongoose.models.Cart

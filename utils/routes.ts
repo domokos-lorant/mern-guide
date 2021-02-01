@@ -4,7 +4,8 @@ export enum Routes {
     Create = "/create",
     Account = "/account",
     Login = "/login",
-    Signup = "/signup"
+    Signup = "/signup",
+    Product = "/product"
 }
 
 export enum ApiRoutes {

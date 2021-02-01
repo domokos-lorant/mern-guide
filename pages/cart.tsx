@@ -4,20 +4,21 @@ import { parseCookies } from "nookies";
 import { Segment } from "semantic-ui-react";
 import CartItemList from "../components/Cart/CartItemList";
 import CartSummary from "../components/Cart/CartSummary";
-import { IProduct } from "../models/Product";
+import { ICartItem } from "../models/Cart";
+import { IUser } from "../models/User";
 import baseUrl from "../utils/baseUrl";
 import { ApiRoutes } from "../utils/routes";
 
 type Props = {
-  products: IProduct[]
+  products: ICartItem[]
+  user?: IUser
 }
 
-function Cart({ products }: Props): JSX.Element {
-  console.log(products);
+function Cart({ products, user }: Props): JSX.Element {
   return (
     <Segment>
-      <CartItemList />
-      <CartSummary />
+      <CartItemList user={user} products={products} />
+      <CartSummary products={products} />
     </Segment>
   );
 }
