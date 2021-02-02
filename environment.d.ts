@@ -5,5 +5,6 @@ declare namespace NodeJS {
     MONGO_SRV: string;
     CLOUDINARY_URL: string;
     JWT_SECRET: string;
+    STRIPE_SECRET_KEY: string;
   }
 }

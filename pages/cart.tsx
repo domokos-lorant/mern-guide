@@ -10,6 +10,8 @@ import { IUser } from "../models/User";
 import baseUrl from "../utils/baseUrl";
 import { ApiRoutes } from "../utils/routes";
 import cookie from "js-cookie";
+import { Token } from "react-stripe-checkout";
+import catchErrors from "../utils/catchErrors";
 
 type Props = {
   products: ICartItem[]
@@ -18,6 +20,8 @@ type Props = {
 
 function Cart({ products, user }: Props): JSX.Element {
   const [cartProducts, setCartProducts] = useState(products);
+  const [success, setSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleRemoveFromCart = useCallback(
     async (id: any) => {
@@ -32,13 +36,40 @@ function Cart({ products, user }: Props): JSX.Element {
     },
     [products]);
 
+  const handleCheckout = useCallback(
+    async (paymentData: Token) => {
+      try {
+        setLoading(true);
+        const url = `${baseUrl}/${ApiRoutes.Checkout}`;
+        const token = cookie.get("token");
+        const payload = { paymentData };
+        await axios.post(
+          url,
+          payload,
+          { headers: { Authorization: token } }
+        );
+        setSuccess(true);
+      } catch (error) {
+        catchErrors(error, window.alert);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [products]);
+
   return (
-    <Segment>
+    <Segment loading={loading}>
       <CartItemList
         user={user}
         products={cartProducts}
-        handleRemoveFromCart={handleRemoveFromCart} />
-      <CartSummary products={cartProducts} />
+        handleRemoveFromCart={handleRemoveFromCart}
+        success={success}
+      />
+      <CartSummary
+        products={cartProducts}
+        handleCheckout={handleCheckout}
+        success={success}
+      />
     </Segment>
   );
 }

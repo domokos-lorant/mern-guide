@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useCallback } from "react";
-import { Button, Header, Icon, Item, Segment } from "semantic-ui-react";
+import { Button, Header, Icon, Item, Message, Segment } from "semantic-ui-react";
 import { ICartItem } from "../../models/Cart";
 import { IUser } from "../../models/User";
 import { Routes } from "../../utils/routes";
@@ -8,10 +8,11 @@ import { Routes } from "../../utils/routes";
 type Props = {
   products: ICartItem[],
   handleRemoveFromCart: (id: any) => Promise<void>,
-  user?: IUser
+  success: boolean,
+  user?: IUser,
 }
 
-function CartItemList({ products, user, handleRemoveFromCart }: Props): JSX.Element {
+function CartItemList({ products, user, handleRemoveFromCart, success }: Props): JSX.Element {
   const router = useRouter();
   const handleViewProducts = useCallback(() => router.push(Routes.Home), []);
   const handleLogin = useCallback(() => router.push(Routes.Login), []);
@@ -38,6 +39,17 @@ function CartItemList({ products, user, handleRemoveFromCart }: Props): JSX.Elem
       )
     }))
   }, [products]);
+
+  if (success) {
+    return (
+      <Message
+        success
+        header="Success!"
+        content="Your order and payment has been accepted"
+        icon="star outline"
+      />
+    );
+  }
 
   if (products.length === 0) {
     return (
