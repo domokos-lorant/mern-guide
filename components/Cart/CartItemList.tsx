@@ -6,11 +6,12 @@ import { IUser } from "../../models/User";
 import { Routes } from "../../utils/routes";
 
 type Props = {
-  products: ICartItem[]
+  products: ICartItem[],
+  handleRemoveFromCart: (id: any) => Promise<void>,
   user?: IUser
 }
 
-function CartItemList({ products, user }: Props): JSX.Element {
+function CartItemList({ products, user, handleRemoveFromCart }: Props): JSX.Element {
   const router = useRouter();
   const handleViewProducts = useCallback(() => router.push(Routes.Home), []);
   const handleLogin = useCallback(() => router.push(Routes.Login), []);
@@ -32,7 +33,7 @@ function CartItemList({ products, user }: Props): JSX.Element {
           basic
           icon="remove"
           floated="right"
-          onClick={() => console.log(p.product._id)}
+          onClick={() => handleRemoveFromCart(p.product._id)}
         />
       )
     }))

@@ -16,6 +16,9 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         case "PUT":
             await handlePutRequest(req, res);
             break;
+        case "DELETE":
+            await handleDeleteRequest(req, res);
+            break;
         default:
             res.status(405).send(`Method ${req.method} not allowed`);
             break;
@@ -72,7 +75,31 @@ async function handlePutRequest(req: NextApiRequest, res: NextApiResponse): Prom
         }
 
         res.status(200).send("Cart updated");
+    } catch (error) {
+        console.error(error);
+        res.status(403).send("Please login again");
+    }
+}
 
+async function handleDeleteRequest(req: NextApiRequest, res: NextApiResponse): Promise<void> {
+    if (!req.headers.authorization) {
+        return res.status(401).send("No authorization token");
+    }
+
+    try {
+        const productId = req.query.productId as string;
+
+        // Get user cart based on user id
+        const userId = verifyToken(req.headers.authorization);
+        const updatedCart = await Cart.findOneAndUpdate(
+            { user: userId },
+            { $pull: { products: { product: ObjectId(productId) } } },
+            { new: true }
+        ).populate({
+            path: "products.product",
+            model: "Product"
+        });
+        res.status(200).json(updatedCart?.products);
     } catch (error) {
         console.error(error);
         res.status(403).send("Please login again");

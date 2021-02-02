@@ -33,14 +33,14 @@ export type ICartItem = {
 export interface ICart {
     _id: any,
     user: Schema.Types.ObjectId | IUser,
-    products: { product: { _id: Schema.Types.ObjectId } }[] | ICartItem[];
+    products: { product: mongoose.Types.ObjectId }[] | ICartItem[];
 }
 
 export interface ICartBaseDocument extends ICart, Document { }
 
 export interface ICartDocument extends ICartBaseDocument {
     user: IUser["_id"],
-    products: { product: { _id: Schema.Types.ObjectId } }[]
+    products: { product: mongoose.Types.ObjectId }[]
 }
 
 export interface ICartPopulatedDocument extends ICartBaseDocument {
