@@ -52,7 +52,8 @@ async function handlePutRequest(req: NextApiRequest, res: NextApiResponse): Prom
         const admin = await User.findById(userId);
 
         if (admin?.role !== "root") {
-            res.status(405).send("User not found");
+            res.status(405).send("Must be root to set permissions");
+            return;
         }
 
         await User.findByIdAndUpdate(_id, { role });
