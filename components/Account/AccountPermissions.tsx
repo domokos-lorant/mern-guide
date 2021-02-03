@@ -1,4 +1,4 @@
-function AccountPermissions() {
+function AccountPermissions(): JSX.Element {
   return <>AccountPermissions</>;
 }
 

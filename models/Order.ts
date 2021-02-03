@@ -46,6 +46,7 @@ export interface IOrder {
     products: { product: mongoose.Types.ObjectId }[] | IOrderItem[];
     email: string;
     total: number;
+    createdAt: Date;
 }
 
 export interface IOrderBaseDocument extends IOrder, Document { }
@@ -55,7 +56,7 @@ export interface ICartDocument extends IOrderBaseDocument {
     products: { product: mongoose.Types.ObjectId }[]
 }
 
-export interface ICartPopulatedDocument extends IOrderBaseDocument {
+export interface IOrderPopulatedDocument extends IOrderBaseDocument {
     user: IUser
     products: IOrderItem[]
 }
