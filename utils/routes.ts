@@ -11,5 +11,7 @@ export enum Routes {
 export enum ApiRoutes {
     Cart = "api/cart",
     Checkout = "api/checkout",
-    Orders = "api/orders"
+    Orders = "api/orders",
+    Users = "api/users",
+    Account = "api/account"
 }

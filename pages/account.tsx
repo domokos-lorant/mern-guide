@@ -3,6 +3,7 @@ import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import AccountHeader from "../components/Account/AccountHeader";
 import AccountOrders from "../components/Account/AccountOrders";
+import AccountPermissions from "../components/Account/AccountPermissions";
 import { IOrderPopulatedDocument } from "../models/Order";
 import { IUser } from "../models/User";
 import baseUrl from "../utils/baseUrl";
@@ -18,6 +19,8 @@ function Account({ user, orders }: Props): JSX.Element {
     <>
       <AccountHeader {...user} />
       <AccountOrders orders={orders} />
+      {user.role === "root" &&
+        <AccountPermissions currentUserId={user._id} />}
     </>
   );
 }

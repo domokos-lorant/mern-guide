@@ -35,7 +35,8 @@ export interface IUser {
     email: string;
     password: string;
     role: UserType;
-    createdAt: Date
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface IUserDocument extends IUser, Document { }
