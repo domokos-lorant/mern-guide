@@ -59,7 +59,6 @@ async function handlePutRequest(req: NextApiRequest, res: NextApiResponse): Prom
         const productExists = cart?.products.some(p => ObjectId(productId).equals(p.product));
 
         // if so, increment quantity
-        console.log(`Quantity ${quantity}`);
         if (productExists) {
             await Cart.findOneAndUpdate(
                 { _id: cart?._id, "products.product": productId },
