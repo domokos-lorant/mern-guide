@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { Accordion, Button, Header, Icon, Image, Label, List, Segment } from "semantic-ui-react";
 import { IOrderPopulatedDocument } from "../../models/Order";
+import formatDate from "../../utils/formatDate";
 import { Routes } from "../../utils/routes";
 
 type Props = {
@@ -18,7 +19,7 @@ function AccountOrders({ orders }: Props): JSX.Element {
       return orders.map(order => ({
         key: order._id,
         title: {
-          content: <Label color="blue" content={order.createdAt} />
+          content: <Label color="blue" content={formatDate(order.createdAt)} />
         },
         content: {
           content: (

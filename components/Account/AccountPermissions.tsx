@@ -5,6 +5,7 @@ import { ApiRoutes } from "../../utils/routes";
 import cookie from "js-cookie";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Checkbox, Header, Icon, Table } from "semantic-ui-react";
+import formatDate from "../../utils/formatDate";
 
 type Props = {
   currentUserId: any
@@ -82,8 +83,8 @@ function UserPermission(
       </Table.Cell>
       <Table.Cell>{name}</Table.Cell>
       <Table.HeaderCell>{email}</Table.HeaderCell>
-      <Table.HeaderCell>{createdAt}</Table.HeaderCell>
-      <Table.HeaderCell>{updatedAt}</Table.HeaderCell>
+      <Table.HeaderCell>{formatDate(createdAt)}</Table.HeaderCell>
+      <Table.HeaderCell>{formatDate(updatedAt)}</Table.HeaderCell>
       <Table.HeaderCell>{admin ? "admin" : "user"}</Table.HeaderCell>
     </Table.Row>
   );
