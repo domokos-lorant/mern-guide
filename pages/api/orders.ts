@@ -14,6 +14,7 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
         const userId = verifyToken(req.headers.authorization);
         const orders = await Order
             .find({ user: userId })
+            .sort({ createdAt: "desc" })
             .populate({
                 path: "products.product",
                 model: "Product"

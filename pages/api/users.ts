@@ -13,7 +13,8 @@ export default async (req: NextApiRequest, res: NextApiResponse): Promise<void> 
     try {
         const userId = verifyToken(req.headers.authorization);
         const users = await User
-            .find({ _id: { $ne: userId } });
+            .find({ _id: { $ne: userId } })
+            .sort({ name: "asc" });
         res.status(200).json(users);
     } catch (error) {
         console.error(error);
