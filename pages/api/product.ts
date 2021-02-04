@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import Cart, { ICartDocument } from "../../models/Cart";
 import Product from "../../models/Product";
 import connectDb from "../../utils/connectDb";
 
@@ -30,8 +31,22 @@ async function handleGetRequest(req: NextApiRequest, res: NextApiResponse): Prom
 
 async function handleDeleteRequest(req: NextApiRequest, res: NextApiResponse): Promise<void> {
   const { _id } = req.query;
-  await Product.findOneAndDelete({ _id });
-  res.status(204).json({});
+
+  try {
+    // Delete by id
+    await Product.findOneAndDelete({ _id });
+
+    // Remove from all carts
+    await Cart.updateMany(
+      { "products.product": _id },
+      { $pull: { products: { product: _id } } as any }
+    );
+
+    res.status(204).json({});
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error deleting product");
+  }
 }
 
 async function handlePostRequest(req: NextApiRequest, res: NextApiResponse): Promise<void> {
